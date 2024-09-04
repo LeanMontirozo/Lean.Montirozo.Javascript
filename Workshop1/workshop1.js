@@ -1,3 +1,5 @@
-for (var i = 0; i < 400; i++) {
-    console.log("This round is " + i);
-}
+document.write("Hello World!");
+alert("Hello World!");
+console.log("Hello World!");
+prompt("Anna nimesi...");
+confirm("Haluatko jatkaa?");
