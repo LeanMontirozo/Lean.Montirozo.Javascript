@@ -2,7 +2,6 @@ document.write("Hello world!");
 alert("Hello world");
 console.log("Hello world");
 
-
 var x =5;
 var y=6;
 var z= x + y;
