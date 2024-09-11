@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Workshop2</title>
+</head>
+
+<body>
+    <h1>Workshop2 JavaScript BOM </h1>
+    <h2> Exercise 1</h2>
+    <script>
+        document.write("<cite><strong> If I had nine hours to chop down a tree, I'd spend the first six sharpening my ax. </strong><br>-- Abraham Lincoln </cite>");
+    </script>
+
+    <h3>Exercise 2</h3>
+    <script> 
+        function repeatingText() {
+        for (let i = 1; i <= 50; i++) {
+        let p = document.createElement("p");
+        p.textContent = " Number " + i;
+        document.body.appendChild(p);
+        }
+    }
+    repeatingText();
+    </script>
+
+    <h3>Exercise 3</h3>
+
+    <div id="message">Checking your browser...</div>
+
+    <script>
+        function checkBrowser() {
+            var userAgent = navigator.userAgent.toLowerCase();
+
+            if (userAgent.indexOf('firefox') > -1) {
+                window.location.href = "http://www.mozilla.org";
+            } else {
+                window.location.href = "not-mozilla.html";
+            }
+        }
+
+        window.onload = checkBrowser;
+
+        
+    </script>
+    <div id="message">You are not using Mozilla Firefox!</div>
+
+    <h4> Exercise 4</h4>
+
+    <div id="messages"></div>
+    <script>
+        function checkStudent() {
+            var isStudent = confirm("Are you a student?");
+            var messageDiv = document.getElementById("messages");
+            if (isStudent) {
+                messageDiv.innerHTML = "Welcome student";
+            } else {
+                messageDiv.innerHTML = "Sorry, this page is for students only";
+            }
+        }
+        window.onload = checkStudent;
+    </script>
+
+    <h5>Exercies 5</h5>
+
+    <script>
+        var images = [
+            "http://farm4.staticflickr.com/3691/11268502654_f28f05966c_m.jpg",
+            "http://farm1.staticflickr.com/33/45336904_1aef569b30_n.jpg",
+            "http://farm6.staticflickr.com/5211/5384592886_80a512e2c9.jpg"
+        ];
+
+        function displayRandomImage() {
+            var randomIndex = Math.floor(Math.random() * 5);
+
+            document.write('<img src="' + images[randomIndex] + '" alt="Random Image">');
+        }
+
+        displayRandomImage();
+    </script>
+
+    
+</body>
+</html>
