@@ -4,11 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worshop4</title>
-    <style src="style4.css"></style>
+    <link rel="stylesheet" href="style4.css">
+    <script>
+        function myFunction() {
+        document.getElementById("Heading").innerHTML = "Modified Heading!";
+    }
+        function secondFunction() {
+        document.getElementById("Heading").innerHTML="Exercise 2: DOM Traversing using ID's and classes";
+    }
+
+    </script>
+
 </head>
 <body>
     
 <h1>Workshop 4: DOM Scripting</h1>
+<p id="Heading"></p>
+<button><a href="firstbutton.html">First Button</button></a>
+    
+
+
+<button onlick="myFunction()">Second Button</button>
+
+<button onlick="myFunction()">Third Button</button>
+
+
+
+
+
 
 
 </body>

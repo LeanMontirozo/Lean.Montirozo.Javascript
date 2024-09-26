@@ -1,3 +1,14 @@
-background{
-    color:aqua
+body{
+    background-color:beige;
+    text-align: center;
+}
+
+
+
+
+Heading{
+    font-family: 'Courier New', Courier, monospace;
+    background-color: blue;
+    font-size:xx-large;
+    font-style: oblique;
 }
