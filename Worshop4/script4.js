@@ -1,3 +1,4 @@
 function myFunction() {
-    document.getElementById("heading").innerHTML = "Modified Heading!";
+    document.getElementById("Button 1").innerHTML = "Modified Heading!";
   }
+
