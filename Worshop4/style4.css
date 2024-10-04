@@ -4,11 +4,42 @@ body{
 }
 
 
-
-
 Heading{
     font-family: 'Courier New', Courier, monospace;
     background-color: blue;
     font-size:xx-large;
     font-style: oblique;
+}
+
+#me {
+    margin-top: 10px;
+}
+
+.surprise {
+    font-size: 16px;
+}
+
+
+image-container {
+    display: center;
+  }
+  
+img{
+display: center; 
+transition: border 0.3s; 
+}
+
+.image-container:hover img {
+border: 5px solid blue; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
 }
