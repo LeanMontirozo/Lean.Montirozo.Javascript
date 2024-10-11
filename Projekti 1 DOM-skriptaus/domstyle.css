@@ -14,7 +14,6 @@ body {
     padding: 8px;
     border: 1px solid #ccc;
     margin: 5px 0;
-    text-align: center;
 }
 
 .completed {
@@ -28,4 +27,8 @@ body {
 
 #message {
     color: red;
+}
+
+button{
+    text-align: center;
 }
