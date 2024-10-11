@@ -6,7 +6,6 @@ body {
 #todo-list {
     list-style: none;
     padding: 0;
-    text-align: center;
 }
 
 #todo-list li {
@@ -15,6 +14,7 @@ body {
     padding: 8px;
     border: 1px solid #ccc;
     margin: 5px 0;
+    text-align: center;
 }
 
 .completed {
