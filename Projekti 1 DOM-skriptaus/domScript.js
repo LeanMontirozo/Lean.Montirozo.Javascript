@@ -33,17 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         todoList.appendChild(li);
     };
 
-    const saveTodos = () => {
-        const todos = [];
-        document.querySelectorAll('#todo-list li').forEach(li => {
-            todos.push({
-                text: li.childNodes[0].textContent,
-                completed: li.classList.contains('completed')
-            });
-        });
-        localStorage.setItem('todos', JSON.stringify(todos));
-    };
-
     todoForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const inputValue = todoInput.value.trim();
