@@ -11,7 +11,7 @@ body {
 #todo-list li {
     display: flex;
     justify-content: space-between;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
     margin: 5px 0;
 }
@@ -27,8 +27,4 @@ body {
 
 #message {
     color: red;
-}
-
-button{
-    text-align: center;
 }
