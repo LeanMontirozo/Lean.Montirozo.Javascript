@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+#todo-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.error {
+    border: 2px solid red;
+}
+
+#message {
+    color: red;
+}
