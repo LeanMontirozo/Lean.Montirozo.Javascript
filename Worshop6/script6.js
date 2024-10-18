@@ -114,3 +114,31 @@ function addRow() {
   document.getElementById('position').value = '';
   document.getElementById('salary').value = '';
 }
+
+
+function fetchPosts() {
+    const xhr = new XMLHttpRequest();
+    const url = 'https://jsonplaceholder.typicode.com/posts';
+
+    xhr.open('GET', url, true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const posts = JSON.parse(xhr.responseText);
+            const tableBody = document.getElementById('postsTableBody');
+            tableBody.innerHTML = ''; 
+
+            posts.forEach(post => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${post.id}</td>
+                    <td>${post.title}</td>
+                    <td>${post.body}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    };
+
+    xhr.send();
+}
