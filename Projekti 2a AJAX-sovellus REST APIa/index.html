@@ -3,14 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Information App</title>
     <link rel="stylesheet" href="style.css">
+    <title>Movie Info App</title>
 </head>
 <body>
-    <h1>Movie Information App</h1>
-    <input type="text" id="movie-input" placeholder="Enter movie title...">
-    <button id="fetch-movie">Fetch Movie Info</button>
-    <div id="results"></div>
-    <script src="http://www.omdbapi.com/?i=tt3896198&apikey=708ce512"></script>
+    <div class="container">
+        <h1>Select a Theater</h1>
+        <select id="theaterSelect">
+        </select>
+        <button id="fetchMovies">Show Movies</button>
+        
+        <div id="movieList">
+        </div>
+        
+        <div>
+            <input type="text" id="searchInput" placeholder="Search for a movie...">
+            <button id="searchButton">Search</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
