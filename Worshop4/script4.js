@@ -1,5 +1,7 @@
-function myFunction() {
-    document.getElementById("Button 1").innerHTML = "Modified Heading!";
+function changeHeading(){
+    document.title="uusi otsikko"
+     let t=document.querySelector('h1')
+     t.innerHTML="Modified Heading"
   }
 
   function secondButton(){
