@@ -12,20 +12,11 @@ function changeHeading(){
     h2[1].style.backgroundColor ="Red"
   }
 
-  document.getElementById('appendTextBtn').addEventListener('click', function() {
-    const newParagraph = document.createElement('p');
-    newParagraph.innerHTML = '<i>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.</i>';
-    
-    const fourthParagraph = document.getElementsByTagName('p')[3];
-    fourthParagraph.parentNode.insertBefore(newParagraph, fourthParagraph.nextSibling);
-    
-    const logoImg = document.createElement('img');
-    logoImg.src = 'https://carwow-uk-wp-3.imgix.net/18015-MC20BluInfinito-scaled-e1707920217641.jpg'; 
-    logoImg.alt = 'Logo';
-    logoImg.style.display = 'block'; 
-    
-    fourthParagraph.parentNode.insertBefore(logoImg, newParagraph.nextSibling)
-});
+  	function appendTextBtn() {
+		let t = document.getElementById("lorem")
+		t.style.fontStyle = "italic"
+		t.innerHTML = "Muutettu teksti!"
+	}
 
 function hide() {
   const checkbox = document.getElementById('CheckboxGroup1_0');
