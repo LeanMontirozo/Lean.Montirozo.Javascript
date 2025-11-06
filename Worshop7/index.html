@@ -5,7 +5,6 @@
 	<meta charset="utf-8">
 	<title>Työpaja 7</title>
 	<link rel="stylesheet" href="style7.css">
-    <script scr="script7.js"></script>
 </head>
 
 <body class="ws8">
@@ -16,77 +15,190 @@
 
 	<hr />
 	<h2>Harjoitus 1: JSONin perusteet</h2>
-	<p>JSON tarkoittaa JavaScript Object Notationia, ja se tarkoittaa, että esittelemme datan muodossa, jonka JavaScript
-		ymmärtää sellaisenaan. Muunnoksia ei tarvita sen käyttämiseen.</p>
-	<p>
-		<button>Näytä vain etu- ja sukunimi</button>
-		<button>Näytä kaikki tiedot</button>
-	</p>
-	<p>Kokeillaan seuraavaa. Voit luoda uuden JSON-datasetin JavaScript-koodissasi alla olevan mallin mukaisesti. Luo
-		sitten funktiot, jotka suoritetaan, kun painikkeita klikataan.</p>
 
-	<pre>
-			var text = '{ "employees" : [' +
-			'{ "firstName":"John" , "lastName":"Doe" },' +
-			'{ "firstName":"Anna" , "lastName":"Smith" },' +
-			'{ "firstName":"Peter" , "lastName":"Jones" } ]}';
-		</pre>
-	<ul>
-		<li>Ensimmäinen painike näyttää etu- ja sukunimen jokaisesta kohteesta alla olevassa divissä.</li>
-		<li>Toinen painike näyttää kaikki tiedot kaikista kohteista alla olevassa divissä. Halutessasi voit käyttää
-			for-silmukoita tässä.</li>
-	</ul>
-	<div id="jsondata">JSON-data näkyy täällä.</div>
+    <button onclick="naytaNimet()">Näytä vain etu- ja sukunimi</button>
+    <button onclick="naytaKaikki()">Näytä kaikki tiedot</button>
+
+    <div id="output"></div>
+
+    <script>
+    var text = '{ "employees" : [' +
+    '{ "firstName":"John" , "lastName":"Doe" },' +
+    '{ "firstName":"Anna" , "lastName":"Smith" },' +
+    '{ "firstName":"Peter" , "lastName":"Jones" } ]}';
+
+    var obj = JSON.parse(text);
+
+    function naytaNimet() {
+        let tulos = "";
+        for (let i = 0; i < obj.employees.length; i++) {
+            tulos += obj.employees[i].firstName + " " + obj.employees[i].lastName + "<br>";
+        }
+        document.getElementById("output").innerHTML = tulos;
+    }
+
+    function naytaKaikki() {
+        document.getElementById("output").innerHTML = JSON.stringify(obj, null, 2);
+    }
+    </script>
+
+    </body>
+    </html>
+
+
 	<hr />
 	<h2>Harjoitus 2: JSONin parsiminen verkosta</h2>
 	<p>Alla näet kaksi painiketta. Muokkaa lähdekoodia ja lisää näihin painikkeisiin onClick-tapahtumat. Lisää
 		toiminnallisuudet alla kuvatulla tavalla.</p>
-	<p>
-		<button>Lataa raaka data</button>
-		<button>Lataa ja parsi data</button>
-	</p>
+	
 
-	<ul>
-		<li>Ensimmäisen painikkeen tulee suorittaa JavaScript-funktio, joka lataa annetun <a
-				href="http://www.omdbapi.com/?s=star+wars&apikey=cbbc6750">JSON-tiedoston verkosta</a> ja näyttää sen
-			raakatiedot alla olevassa divissä (id=rawdata). Käytä kehittäjätyökaluja (F12) seurataksesi AJAX-kutsua ja
-			tutki otsikoita, suoritus­aikoja jne.</li>
-		<li>Toisen painikkeen tulee suorittaa funktio, joka lataa saman datan, mutta parsii sen ja näyttää tiedot
-			taulukossa.</li>
-		<li>Kun olet saanut datan näkyviin, kokeile ladata myös kuvat sivulle.</li>
-	</ul>
-	<div id="rawdata">Raaka data näkyy täällä.</div>
+    <button onclick="naytaRaaka()">Näytä raaka data</button>
+<button onclick="naytaTaulukko()">Näytä taulukko</button>
+
+<div id="rawdata" style="margin-top:10px; white-space:pre;"></div>
+<div id="tabledata" style="margin-top:20px;"></div>
+
+<script>
+// --- JSON suoraan JavaScriptissä ---
+var data = {
+  "products": [
+    { 
+      "name": "Kahvi", 
+      "price": 3.5, 
+      "image": "https://upload.wikimedia.org/wikipedia/commons/4/45/A_small_cup_of_coffee.JPG" 
+    },
+    { 
+      "name": "Tee", 
+      "price": 2.8, 
+      "image": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Tea_in_cup.jpg" 
+    },
+    { 
+      "name": "Kaakao", 
+      "price": 4.0, 
+      "image": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Hot_chocolate.jpg" 
+    }
+  ]
+};
+
+// --- Näytä raaka JSON-data ---
+function naytaRaaka() {
+  document.getElementById("rawdata").textContent = JSON.stringify(data, null, 2);
+}
+
+// --- Näytä JSON parsittuna taulukossa ---
+function naytaTaulukko() {
+  let html = "<table border='1' cellpadding='5'><tr><th>Tuote</th><th>Hinta (€)</th><th>Kuva</th></tr>";
+  data.products.forEach(item => {
+    html += `
+      <tr>
+        <td>${item.name}</td>
+        <td>${item.price}</td>
+        <td><img src="${item.image}" width="100"></td>
+      </tr>`;
+  });
+  html += "</table>";
+  document.getElementById("tabledata").innerHTML = html;
+}
+</script>
+
 
 	<hr />
 	<h2>Harjoitus 3: Käytännön haaste: OpenWeatherMap API</h2>
 
-	<p>OpenWeatherMap on tunnettu säädatan tarjoaja verkossa. Se tarjoaa API:n, jonka avulla kehittäjät voivat hakea
-		säätietoja. <a href="https://openweathermap.org/api">Dokumentaatio löytyy täältä</a>.</p>
-	<p>Tehtäväsi on kirjoittaa Sää-sovellus, joka näyttää säätiedot käyttäjän toiveiden mukaan. <b>Huomaa, että sinun
-			täytyy rekisteröityä (ilmaista) saadaksesi API-avaimen, joka mahdollistaa palvelun käytön.</b></p>
+	<label>Valitse kaupunki listalta:</label>
+<select id="citySelect" onchange="fetchWeatherFromSelect()">
+  <option value="Helsinki">Helsinki</option>
+  <option value="London">London</option>
+  <option value="Tokyo">Tokyo</option>
+  <option value="New York">New York</option>
+</select>
 
-	<p>Esimerkkikutsu REST API:iin voisi näyttää tältä: <a
-			href="http://api.openweathermap.org/data/2.5/weather?q=Helsinki&units=metric&mode=JSON&APPID=ff64c247a136f706923d1ee0d55d71e2">http://api.openweathermap.org/data/2.5/weather?q=Helsinki&units=metric&mode=JSON&APPID=ff64c247a136f706923d1ee0d55d71e2</a>.
-		Klikkaa nähdäksesi vastauksen.</p>
-	<ul>
-		<li>Kehitä ensin sovellus, joka näyttää raakatiedot säästä (lämpötila, pilvisyys, ilmankosteus) tietyssä
-			kaupungissa, kun painiketta klikataan. <button>Hae data</button></li>
-		<li>Kun tämä toimii, parsi data ja tulosta se diviin.</li>
-		<li>Tämän jälkeen lisää onchange-tapahtuma pudotusvalikkoon, jotta käyttäjä voi valita, minkä kaupungin tiedot
-			näytetään listalta.</li>
-		<li>Lopuksi lisää toiminnallisuus syötekenttään, johon käyttäjä voi kirjoittaa hakukyselyn, joka lähetetään
-			OpenWeatherMap API:lle ja jonka tulokset näytetään sovelluksessa.</li>
-	</ul>
-	<p>Valitse kaupunki listalta:</p>
-	<select name="mySelect" id="city" onchange="">
-		<option value="Helsinki">Helsinki</option>
-		<option value="Stockholm">Tukholma</option>
-		<option value="Rome">Rooma</option>
-		<option value="New York">New York</option>
-	</select>
-	<p>Tai kirjoita hakusana: <input id="citysearch" /><button id="search">Hae</button></p>
-	<div id="weatherdata">Säätiedot näkyvät täällä.</div>
+<br><br>
 
+
+<label>Tai kirjoita hakusana:</label>
+<input type="text" id="cityInput" placeholder="e.g. Paris">
+<button onclick="fetchWeatherFromInput()">Hae</button>
+
+<br><br>
+
+
+<button onclick="fetchWeatherRaw()">Hae raakadataa</button>
+<button onclick="fetchWeatherParsed()">Hae jäsennettyä dataa</button>
+
+
+<h3>Raakadata:</h3>
+<div id="rawData">Raakasäädata näkyy tässä.</div>
+
+<h3>Jäsennetyt säätiedot:</h3>
+<div id="weatherData">Säätiedot näkyvät tässä.</div>
+
+<script>
+const API_KEY = "cc736f2cca43966879a230cd86b5236f";
+let defaultCity = "Helsinki";
+
+
+function fetchWeatherRaw() {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${defaultCity}&units=metric&appid=${API_KEY}`;
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("rawData").textContent = JSON.stringify(data, null, 2);
+    })
+    .catch(err => {
+      document.getElementById("rawData").textContent = "Error fetching data.";
+      console.error(err);
+    });
+}
+
+
+function fetchWeatherParsed() {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${defaultCity}&units=metric&appid=${API_KEY}`;
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      showWeather(data);
+    })
+    .catch(err => {
+      document.getElementById("weatherData").textContent = "Error fetching weather data.";
+      console.error(err);
+    });
+}
+
+function showWeather(data) {
+  if (data.cod !== 200) {
+    document.getElementById("weatherData").innerHTML = "City not found.";
+    return;
+  }
+
+  const html = `
+    <h4>Weather in ${data.name}</h4>
+    <p><strong>Temperature:</strong> ${data.main.temp} °C</p>
+    <p><strong>Humidity:</strong> ${data.main.humidity} %</p>
+    <p><strong>Cloudiness:</strong> ${data.clouds.all} %</p>
+    <p><strong>Condition:</strong> ${data.weather[0].description}</p>
+    <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png">
+  `;
+  document.getElementById("weatherData").innerHTML = html;
+}
+
+
+function fetchWeatherFromSelect() {
+  defaultCity = document.getElementById("citySelect").value;
+  fetchWeatherParsed();
+}
+
+
+function fetchWeatherFromInput() {
+  const city = document.getElementById("cityInput").value.trim();
+  if (city === "") {
+    alert("Please enter a city name.");
+    return;
+  }
+  defaultCity = city;
+  fetchWeatherParsed();
+}
+</script>
 </body>
 
 </html>

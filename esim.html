@@ -1,118 +1,90 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<!DOCTYPE html>
+<HTML lang="fi">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Workshop 5</title>
-    <link rel="stylesheet" href="esim.css">
-    <script src="esimskript.js"></script
+	<meta charset="utf-8">
+	<title>Työpaja 7</title>
+	<link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body>
-    <h1>Workshop 5: Lomakkeet ja tiedon tallentaminen Localstorageen</h1>
-    <hr />
-    <h2>Harjoitus 1: Yhteystieto-lomake</h2>
+<body class="ws8">
+	<h1>Työpaja 7: JSON/XML:n parsiminen AJAXilla</h1>
+	<hr />
+	<p>Tässä harjoituksessa harjoittelemme JSONin käyttöä JavaScript-sovelluksissa. Käytä luentomateriaalia rinnalla
+		viitteenä näiden tehtävien aikana.</p>
 
-    <form contactForum="">
-        <div class="no-border">
-            <label>Name:<br>
-                <input type="text" name="name" id="name"><span id="name"></span>
-            </label>
-        </div>
-        <div class="no-border">
-            <label>Email address:<br>
-                <input type="text" name="email" id="email"><span id="email"></span>
-            </label>
-        </div>
-        <div class="no-border">
-            <label>
-                Comment:<br>
-            </label>
-            <textarea name="comment" id="comment"></textarea><span id="comment"></span>
-        </div>
-        <br>
-        <input type="submit" value="Send">
-    </form>
+	<hr />
+	<h2>Harjoitus 1: JSONin perusteet</h2>
+	<p>JSON tarkoittaa JavaScript Object Notationia, ja se tarkoittaa, että esittelemme datan muodossa, jonka JavaScript
+		ymmärtää sellaisenaan. Muunnoksia ei tarvita sen käyttämiseen.</p>
+	<p>
+		<button>Näytä vain etu- ja sukunimi</button>
+		<button>Näytä kaikki tiedot</button>
+	</p>
+	<p>Kokeillaan seuraavaa. Voit luoda uuden JSON-datasetin JavaScript-koodissasi alla olevan mallin mukaisesti. Luo
+		sitten funktiot, jotka suoritetaan, kun painikkeita klikataan.</p>
 
-    <hr />
-    <h2>Harjoitus 2: Jäsenyyslaskuri</h2>
-    <p data-line="16">Alla on kuntosalin jäsenyyslaskurin lomake. Siinä on kolme kenttää: Jäsenyyden tyyppi
-        (valintalista), Vuodet
-        (syötekenttä) ja Kustannukset (syötekenttä).
-        Käyttäjä voi valita valintalistasta haluamansa jäsenyyssuunnitelman (Basic = 10€, Premium = 15€, Gold = 20€) ja
-        syöttää, kuinka monesta vuodesta hän haluaa maksaa.
+	<pre>
+			var text = '{ "employees" : [' +
+			'{ "firstName":"John" , "lastName":"Doe" },' +
+			'{ "firstName":"Anna" , "lastName":"Smith" },' +
+			'{ "firstName":"Peter" , "lastName":"Jones" } ]}';
+		</pre>
+	<ul>
+		<li>Ensimmäinen painike näyttää etu- ja sukunimen jokaisesta kohteesta alla olevassa divissä.</li>
+		<li>Toinen painike näyttää kaikki tiedot kaikista kohteista alla olevassa divissä. Halutessasi voit käyttää
+			for-silmukoita tässä.</li>
+	</ul>
+	<div id="jsondata">JSON-data näkyy täällä.</div>
+	<hr />
+	<h2>Harjoitus 2: JSONin parsiminen verkosta</h2>
+	<p>Alla näet kaksi painiketta. Muokkaa lähdekoodia ja lisää näihin painikkeisiin onClick-tapahtumat. Lisää
+		toiminnallisuudet alla kuvatulla tavalla.</p>
+	<p>
+		<button>Lataa raaka data</button>
+		<button>Lataa ja parsi data</button>
+	</p>
 
-    </p>
-    <p data-line="20">
-    <p>Päivitä lomakkeen koodi niin, että:</p>
-    <p data-line="20">a Kustannukset-kenttä näyttää jäsenyyden kokonaiskustannukset.
-    </p>
-    <p data-line="22">b Jos käyttäjä valitsee maksavansa yli 2 vuotta, hän saa 20 % alennuksen. Ilmoita käyttäjälle
-        alennuksesta alert-ikkunalla tai näyttämällä teksti lomakkeen alapuolella/vieressä.
+	<ul>
+		<li>Ensimmäisen painikkeen tulee suorittaa JavaScript-funktio, joka lataa annetun <a
+				href="http://www.omdbapi.com/?s=star+wars&apikey=cbbc6750">JSON-tiedoston verkosta</a> ja näyttää sen
+			raakatiedot alla olevassa divissä (id=rawdata). Käytä kehittäjätyökaluja (F12) seurataksesi AJAX-kutsua ja
+			tutki otsikoita, suoritus­aikoja jne.</li>
+		<li>Toisen painikkeen tulee suorittaa funktio, joka lataa saman datan, mutta parsii sen ja näyttää tiedot
+			taulukossa.</li>
+		<li>Kun olet saanut datan näkyviin, kokeile ladata myös kuvat sivulle.</li>
+	</ul>
+	<div id="rawdata">Raaka data näkyy täällä.</div>
 
-    <p data-line="24">c Jos käyttäjä maksaa 5 vuotta tai enemmän, hän saa normaalin 20 % alennuksen, ja sen lisäksi 5 €
-        yllätysalennuksen. Tiedota myös tästä käyttäjää haluamallasi tavalla.
-    <form action="#" method="post" id="theForm">
-        <fieldset>
-            <legend>Laske jäsenyytesi hinta</legend>
-            <p>Täytä tämä lomake laskeaksesi jäsenyytesi hinnan. Saat 20 % alennuksen, jos liityt jäseneksi yli
-                vuodeksi!</p>
-            <div>
-                <label for="type">Jäsenyys</label>
-                <select name="type" id="type" size="4" required>
-                    <option value="10">Basic - 10.00 &euro;</option>
-                    <option value="15">Premium - 15.00 &euro;</option>
-                    <option value="20">Gold - 20.00 &euro;</option>
-                    <option value="25">Platinum - 25.00 &euro;</option>
-                </select>
-            </div>
-            <div>
-                <label for="years">Vuosia</label>
-                <input type="number" name="years" id="years" min="1" required>
-            </div>
-            <div>
-                <label for="cost">Hinta</label>
-                <input type="text" name="cost" id="cost" disabled>
-            </div>
-            <input type="submit" value="Laske" id="submit">
-        </fieldset>
-    </form>
+	<hr />
+	<h2>Harjoitus 3: Käytännön haaste: OpenWeatherMap API</h2>
 
-    <p data-line="20">&nbsp;</p>
-    <hr />
+	<p>OpenWeatherMap on tunnettu säädatan tarjoaja verkossa. Se tarjoaa API:n, jonka avulla kehittäjät voivat hakea
+		säätietoja. <a href="https://openweathermap.org/api">Dokumentaatio löytyy täältä</a>.</p>
+	<p>Tehtäväsi on kirjoittaa Sää-sovellus, joka näyttää säätiedot käyttäjän toiveiden mukaan. <b>Huomaa, että sinun
+			täytyy rekisteröityä (ilmaista) saadaksesi API-avaimen, joka mahdollistaa palvelun käytön.</b></p>
 
-    <h2>Harjoitus 3: Lomakedatan tallentaminen selaimeen</h2>
-    <p>Harjoituksessa 1 luit lomakkeen tiedot JavaScriptillä. Muokkaa sovelluksta siten että tallennat lukemasi kenttien
-        tiedot selaimen localStorageen.
-        Tutki tallennettuja tietoja selaimen työkaluilla Voit myös kokeilla muokata
-        tallennettua tietoa kehittäjän työkalujen avulla. Valitse työkaluista välilehti nimeltä "Sovellus/Application".
-
-
-        <hr />
-    <div>
-        <h2>Harjoitus 4: Datan lataaminen localStoragesta</h2>
-        <p>Kun olet onnistunut tallentamaan tietoa localStorageen, on aika hyödyntää sitä.
-        <p>
-            a Toteuta ohjelma joka lataa localStoragen tiedot sivulla olevaan div-elementtiin (id="sessionData") kun
-            nappia painetaan.
-        <p></p>
-
-        b Lisää sivun alkuun Script-tägiin koodi, joka lataa tiedot sivulle heti kun sivu ladataan.
-
-        </p>
-        <div id="sessiondata">Session data goes here!</div>
-    </div>
-    <hr />
-    <div>
-        <h2>Pohdiskelu: Sessionstorage vs. localstorage</h2>
-        <p>Vertaa sessionStoragea ja localStoragea.
-            Mieti muutamia esimerkkejä, missä kumpaakin tulisi käyttää.
-            Kokeile vaihtaa edelliseen tehtävään localStoragen tilalle sessionStorare.
-            Katso, mitä tapahtuu, kun suljet selaimen.
-            Voit hyödyntää selaimen kehittäjätyökaluja tutkiaksesi tallennettua tietoa:
-            F12 → Application-välilehti → vasemmalta valitse LocalStorage tai SessionStorage.</p>
-    </div>
-    <hr />
+	<p>Esimerkkikutsu REST API:iin voisi näyttää tältä: <a
+			href="http://api.openweathermap.org/data/2.5/weather?q=Helsinki&units=metric&mode=JSON&APPID=ff64c247a136f706923d1ee0d55d71e2">http://api.openweathermap.org/data/2.5/weather?q=Helsinki&units=metric&mode=JSON&APPID=ff64c247a136f706923d1ee0d55d71e2</a>.
+		Klikkaa nähdäksesi vastauksen.</p>
+	<ul>
+		<li>Kehitä ensin sovellus, joka näyttää raakatiedot säästä (lämpötila, pilvisyys, ilmankosteus) tietyssä
+			kaupungissa, kun painiketta klikataan. <button>Hae data</button></li>
+		<li>Kun tämä toimii, parsi data ja tulosta se diviin.</li>
+		<li>Tämän jälkeen lisää onchange-tapahtuma pudotusvalikkoon, jotta käyttäjä voi valita, minkä kaupungin tiedot
+			näytetään listalta.</li>
+		<li>Lopuksi lisää toiminnallisuus syötekenttään, johon käyttäjä voi kirjoittaa hakukyselyn, joka lähetetään
+			OpenWeatherMap API:lle ja jonka tulokset näytetään sovelluksessa.</li>
+	</ul>
+	<p>Valitse kaupunki listalta:</p>
+	<select name="mySelect" id="city" onchange="">
+		<option value="Helsinki">Helsinki</option>
+		<option value="Stockholm">Tukholma</option>
+		<option value="Rome">Rooma</option>
+		<option value="New York">New York</option>
+	</select>
+	<p>Tai kirjoita hakusana: <input id="citysearch" /><button id="search">Hae</button></p>
+	<div id="weatherdata">Säätiedot näkyvät täällä.</div>
 
 </body>
 
