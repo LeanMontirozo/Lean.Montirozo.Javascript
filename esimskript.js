@@ -1,50 +1,80 @@
-const form = document.getElementById('contactForm');
+const theatreSelect = document.getElementById("theatreSelect");
+const movieContainer = document.getElementById("movieContainer");
+const searchInput = document.getElementById("searchInput");
+const loadBtn = document.getElementById("loadBtn");
 
-form.onsubmit = function(event) {
-  event.preventDefault();  
+const OMDB_API_KEY = "e42810bb";
+const CORS = "https://corsproxy.io/?";
 
+// Load theatre list
+async function loadTheatres() {
+  const res = await fetch(CORS + "https://www.finnkino.fi/xml/TheatreAreas/");
+  const xml = await res.text();
+  const data = new DOMParser().parseFromString(xml,"text/xml");
 
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const comment = document.getElementById('comment').value.trim();
+  const areas = data.getElementsByTagName("TheatreArea");
 
-  
-  let valid = true;
+  for (let a of areas) {
+    const id = a.getElementsByTagName("ID")[0].textContent;
+    const name = a.getElementsByTagName("Name")[0].textContent;
 
+    const opt = document.createElement("option");
+    opt.value = id;
+    opt.textContent = name;
+    theatreSelect.appendChild(opt);
+  }
+}
 
-  if (name === "") {
-    valid = false;
-    document.getElementById('nameError').textContent = "Nimi ei saa olla tyhjä";
-    document.getElementById('name').style.border = "2px solid red";
-  } else {
-    document.getElementById('nameError').textContent = "";
-    document.getElementById('name').style.border = "";
+// Load movies
+async function loadMovies() {
+  movieContainer.innerHTML = "Loading...";
+
+  const theatreID = theatreSelect.value;
+  const search = searchInput.value.toLowerCase();
+
+  const res = await fetch(CORS + `https://www.finnkino.fi/xml/Schedule/?area=${theatreID}`);
+  const xml = await res.text();
+  const data = new DOMParser().parseFromString(xml, "text/xml");
+
+  const shows = data.getElementsByTagName("Show");
+  const movies = {};
+
+  for (let s of shows) {
+    const title = s.getElementsByTagName("Title")[0].textContent;
+    const start = s.getElementsByTagName("dttmShowStart")[0].textContent;
+
+    if (search && !title.toLowerCase().includes(search)) continue;
+
+    if (!movies[title]) movies[title] = { title, showtimes: [] };
+
+    movies[title].showtimes.push(start);
   }
 
-  
-  if (email.length < 6 || email.length > 15 || !email.includes("@")) {
-    valid = false;
-    document.getElementById('emailError').textContent = "Sähköposti ei ole validi";
-    document.getElementById('email').style.border = "2px solid red";
-  } else {
-    document.getElementById('emailError').textContent = "";
-    document.getElementById('email').style.border = "";
+  movieContainer.innerHTML = "";
+
+  for (let title in movies) {
+    const omdb = await fetch(
+      `https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${OMDB_API_KEY}`
+    ).then(r => r.json());
+
+    const poster = omdb.Poster && omdb.Poster !== "N/A"
+      ? omdb.Poster
+      : "https://via.placeholder.com/300x450?text=No+Image";
+
+    movieContainer.innerHTML += `
+      <div class="card">
+        <img src="${poster}">
+        <h3>${title}</h3>
+        <p><strong>Year:</strong> ${omdb.Year || "N/A"}</p>
+        <p><strong>Genre:</strong> ${omdb.Genre || "N/A"}</p>
+        <p><strong>Plot:</strong> ${omdb.Plot || "No plot available"}</p>
+        <p><strong>Showtimes:</strong><br>
+        ${movies[title].showtimes.map(t => new Date(t).toLocaleString()).join("<br>")}</p>
+      </div>
+    `;
   }
+}
 
- 
-  if (comment === "" || comment.length > 150) {
-    valid = false;
-    document.getElementById('commentError').textContent = "Kommentti on virheellinen";
-    document.getElementById('comment').style.border = "2px solid red";
-  } else {
-    document.getElementById('commentError').textContent = "";
-    document.getElementById('comment').style.border = "";
-  }
+loadBtn.addEventListener("click", loadMovies);
 
-
-  if (valid) {
-    alert(`Nimi: ${name}\nSähköposti: ${email}\nKommentti: ${comment}`);
-  }
-};
-
-
+loadTheatres();

@@ -1,91 +1,25 @@
 <!DOCTYPE html>
-<HTML lang="fi">
-
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Työpaja 7</title>
-	<link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8"/>
+  <title>Movie Info App</title>
+  <link rel="stylesheet" href="esim.css"/>
 </head>
+<body>
+  <h1>🎬 Finnkino Movie Information</h1>
 
-<body class="ws8">
-	<h1>Työpaja 7: JSON/XML:n parsiminen AJAXilla</h1>
-	<hr />
-	<p>Tässä harjoituksessa harjoittelemme JSONin käyttöä JavaScript-sovelluksissa. Käytä luentomateriaalia rinnalla
-		viitteenä näiden tehtävien aikana.</p>
+  <div class="controls">
+    <label>Theatre:</label>
+    <select id="theatreSelect"></select>
 
-	<hr />
-	<h2>Harjoitus 1: JSONin perusteet</h2>
-	<p>JSON tarkoittaa JavaScript Object Notationia, ja se tarkoittaa, että esittelemme datan muodossa, jonka JavaScript
-		ymmärtää sellaisenaan. Muunnoksia ei tarvita sen käyttämiseen.</p>
-	<p>
-		<button>Näytä vain etu- ja sukunimi</button>
-		<button>Näytä kaikki tiedot</button>
-	</p>
-	<p>Kokeillaan seuraavaa. Voit luoda uuden JSON-datasetin JavaScript-koodissasi alla olevan mallin mukaisesti. Luo
-		sitten funktiot, jotka suoritetaan, kun painikkeita klikataan.</p>
+    <label>Search Title (optional):</label>
+    <input type="text" id="searchInput" placeholder="Search movie title...">
 
-	<pre>
-			var text = '{ "employees" : [' +
-			'{ "firstName":"John" , "lastName":"Doe" },' +
-			'{ "firstName":"Anna" , "lastName":"Smith" },' +
-			'{ "firstName":"Peter" , "lastName":"Jones" } ]}';
-		</pre>
-	<ul>
-		<li>Ensimmäinen painike näyttää etu- ja sukunimen jokaisesta kohteesta alla olevassa divissä.</li>
-		<li>Toinen painike näyttää kaikki tiedot kaikista kohteista alla olevassa divissä. Halutessasi voit käyttää
-			for-silmukoita tässä.</li>
-	</ul>
-	<div id="jsondata">JSON-data näkyy täällä.</div>
-	<hr />
-	<h2>Harjoitus 2: JSONin parsiminen verkosta</h2>
-	<p>Alla näet kaksi painiketta. Muokkaa lähdekoodia ja lisää näihin painikkeisiin onClick-tapahtumat. Lisää
-		toiminnallisuudet alla kuvatulla tavalla.</p>
-	<p>
-		<button>Lataa raaka data</button>
-		<button>Lataa ja parsi data</button>
-	</p>
+    <button id="loadBtn">Load Movies</button>
+  </div>
 
-	<ul>
-		<li>Ensimmäisen painikkeen tulee suorittaa JavaScript-funktio, joka lataa annetun <a
-				href="http://www.omdbapi.com/?s=star+wars&apikey=cbbc6750">JSON-tiedoston verkosta</a> ja näyttää sen
-			raakatiedot alla olevassa divissä (id=rawdata). Käytä kehittäjätyökaluja (F12) seurataksesi AJAX-kutsua ja
-			tutki otsikoita, suoritus­aikoja jne.</li>
-		<li>Toisen painikkeen tulee suorittaa funktio, joka lataa saman datan, mutta parsii sen ja näyttää tiedot
-			taulukossa.</li>
-		<li>Kun olet saanut datan näkyviin, kokeile ladata myös kuvat sivulle.</li>
-	</ul>
-	<div id="rawdata">Raaka data näkyy täällä.</div>
+  <div id="movieContainer" class="grid"></div>
 
-	<hr />
-	<h2>Harjoitus 3: Käytännön haaste: OpenWeatherMap API</h2>
-
-	<p>OpenWeatherMap on tunnettu säädatan tarjoaja verkossa. Se tarjoaa API:n, jonka avulla kehittäjät voivat hakea
-		säätietoja. <a href="https://openweathermap.org/api">Dokumentaatio löytyy täältä</a>.</p>
-	<p>Tehtäväsi on kirjoittaa Sää-sovellus, joka näyttää säätiedot käyttäjän toiveiden mukaan. <b>Huomaa, että sinun
-			täytyy rekisteröityä (ilmaista) saadaksesi API-avaimen, joka mahdollistaa palvelun käytön.</b></p>
-
-	<p>Esimerkkikutsu REST API:iin voisi näyttää tältä: <a
-			href="http://api.openweathermap.org/data/2.5/weather?q=Helsinki&units=metric&mode=JSON&APPID=ff64c247a136f706923d1ee0d55d71e2">http://api.openweathermap.org/data/2.5/weather?q=Helsinki&units=metric&mode=JSON&APPID=ff64c247a136f706923d1ee0d55d71e2</a>.
-		Klikkaa nähdäksesi vastauksen.</p>
-	<ul>
-		<li>Kehitä ensin sovellus, joka näyttää raakatiedot säästä (lämpötila, pilvisyys, ilmankosteus) tietyssä
-			kaupungissa, kun painiketta klikataan. <button>Hae data</button></li>
-		<li>Kun tämä toimii, parsi data ja tulosta se diviin.</li>
-		<li>Tämän jälkeen lisää onchange-tapahtuma pudotusvalikkoon, jotta käyttäjä voi valita, minkä kaupungin tiedot
-			näytetään listalta.</li>
-		<li>Lopuksi lisää toiminnallisuus syötekenttään, johon käyttäjä voi kirjoittaa hakukyselyn, joka lähetetään
-			OpenWeatherMap API:lle ja jonka tulokset näytetään sovelluksessa.</li>
-	</ul>
-	<p>Valitse kaupunki listalta:</p>
-	<select name="mySelect" id="city" onchange="">
-		<option value="Helsinki">Helsinki</option>
-		<option value="Stockholm">Tukholma</option>
-		<option value="Rome">Rooma</option>
-		<option value="New York">New York</option>
-	</select>
-	<p>Tai kirjoita hakusana: <input id="citysearch" /><button id="search">Hae</button></p>
-	<div id="weatherdata">Säätiedot näkyvät täällä.</div>
-
+  <script src="esimskript.js"></script>
 </body>
-
 </html>
