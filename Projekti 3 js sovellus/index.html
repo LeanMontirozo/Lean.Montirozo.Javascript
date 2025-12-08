@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO-sovellus</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(50, 109, 155);
+            text-align: center;
+        }
+
+        #todo-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #todo-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            background: white;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: rgb(108, 51, 95);
+        }
+
+        .error {
+            border: 2px solid red;
+        }
+
+        #message {
+            color: red;
+        }
+
+        button {
+            margin-left: 10px;
+        }
+
+        footer {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>TODO-sovellus</h1>
+
+    <form id="todo-form">
+        <input type="text" id="todo-input" placeholder="Lisää Todo listaat" required>
+        <button type="submit">Paina</button>
+    </form>
+
+    <ul id="todo-list"></ul>
+    <div id="message"></div>
+
+    <footer>
+        <p>&copy; 2025 Lean Montirozo.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+
+            const $form = $('#todo-form');
+            const $input = $('#todo-input');
+            const $list = $('#todo-list');
+            const $message = $('#message');
+
+            // Load todos from localStorage
+            const loadTodos = () => {
+                const todos = JSON.parse(localStorage.getItem('todos')) || [];
+                todos.forEach(todo => addTodoToDOM(todo.text, todo.completed));
+            };
+
+            // Save todos to localStorage
+            const saveTodos = () => {
+                const todos = [];
+
+                $list.find('li').each(function () {
+                    const text = $(this).contents().filter(function () {
+                        return this.nodeType === 3;
+                    }).text().trim();
+
+                    todos.push({
+                        text: text,
+                        completed: $(this).hasClass('completed')
+                    });
+                });
+
+                localStorage.setItem('todos', JSON.stringify(todos));
+            };
+
+            // Add todo to DOM
+            const addTodoToDOM = (text, completed = false) => {
+                const $li = $('<li></li>').text(text);
+
+                if (completed) $li.addClass('completed');
+
+                const $completeBtn = $('<button>Valmis</button>').on('click', function () {
+                    $li.toggleClass('completed');
+                    $(this).text($li.hasClass('completed') ? 'Palauta' : 'Valmis');
+                    saveTodos();
+                });
+
+                if (completed) $completeBtn.text("Palauta");
+
+                const $deleteBtn = $('<button>Poista</button>').on('click', function () {
+                    $li.remove();
+                    saveTodos();
+                });
+
+                $li.append($completeBtn, $deleteBtn);
+                $list.append($li);
+            };
+
+            // Handle submit
+            $form.on('submit', function (e) {
+                e.preventDefault();
+
+                const value = $input.val().trim();
+
+                if (value.length < 3) {
+                    $message.text("Tehtävän on oltava vähintään 3 merkkiä pitkä.");
+                    $input.addClass('error');
+                    return;
+                }
+
+                $message.text("");
+                $input.removeClass('error');
+
+                addTodoToDOM(value);
+                saveTodos();
+
+                $input.val('');
+            });
+
+            loadTodos();
+        });
+    </script>
+</body>
+</html>
