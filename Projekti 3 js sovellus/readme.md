@@ -20,10 +20,10 @@ Sovellus tallentaa tehtävät selaimen LocalStorage, joten kaikki tehtävät sä
     - "Poista" merkitse poistaa tehtäviä kokonaan
 
 ## Käytetyt
--HTML5
--CSS
--JQuery
--LocalStorage
+- HTML
+- CSS
+- JQuery
+- LocalStorage
 
 ### Tekijä
 Lean Montirozo 2025
